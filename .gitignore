@@ -112,10 +112,6 @@ venv.bak/
 # VSCode settings
 .vscode
 
-# Terraform
-.terraform
-*.tfstate*
-
 
 # Certs
 **/*.cert
@@ -124,29 +120,10 @@ venv.bak/
 **/certs/party_key.txt
 **/certs/asid.txt
 
-
-mhs-reference-implementation/selenium_tests/data/local_asid
-
 **/test-reports/
 
 # Sonar-Scanner
 .scannerwork
 
-/configure-env-vars.sh
-
-# component test enviornment file
-**/component-test-source.sh
-
-# Local configuration
-/mhs/inbound/nhs-inbound-env.yaml
-/mhs/outbound/nhs-outbound-env.yaml
-/mhs/spineroutelookup/nhs-spineroutelookup-env.yaml
-export-env-vars-and-run-mhs-docker.sh
-/integration-tests/integration_tests/integration-test-env.yaml
-/integration-tests/integration_tests/integration-tests-env.yaml
-
 # system
 .DS_Store
-
-# mock ldap data
-/mhs/spineroutelookup/mock_ldap_data/*.json
