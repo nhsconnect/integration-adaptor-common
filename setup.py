@@ -8,7 +8,7 @@ setup(
     packages=setuptools.find_packages(),
     url='git@github.com:nhsconnect/integration-adaptor-common.git',
     license='',
-    author='Gareth Allan',
+    author='NIA Development Team',
     author_email='',
     description='Common utilities used by the NHS integration adaptors projects.',
     install_requires=[
