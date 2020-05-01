@@ -26,9 +26,7 @@ jobs:
           version: 2018.11.26
       - name: Install dependencies
         run: |
-          cd integration-adaptor-common
           pipenv install --dev
       - name: Test
         run: |
-          cd integration-adaptor-common
           pipenv run unittests-cov
