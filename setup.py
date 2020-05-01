@@ -1,9 +1,9 @@
-import setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='integration-adaptors-common',
     version='',
-    packages=setuptools.find_packages(),
+    packages=find_packages(),
     url='https://github.com/nhsconnect/integration-adaptor-common',
     license='',
     author='NIA Development Team',
