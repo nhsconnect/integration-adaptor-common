@@ -28,10 +28,3 @@ Ensure sonar-scanner is on your path, and configured for the sonarqube host with
 `sonar-scanner` will use `sonar-project.properties` to submit source to sonarqube for analysis.
  (See: [SonarQube](https://gpitbjss.atlassian.net/wiki/x/XQFfXQ))\
 NOTE: Coverage will not show in the analysis unless you have already generated the xml report (as per above.)
-
-### Local Environment
-From the integration-adaptor-common folder
-Three scripts are available from `pipenv run`, they are:
-- `local-env-prep` This will prepare any docker images required to run a local-environment.
-- `local-env-start` This will run a local environment which can be used for local exploratory testing.
-- `local-env-stop` This will stop the local environment which was started, so that it is not running when not needed.

@@ -6,7 +6,7 @@ setup(
     name='integration-adaptors-common',
     version='',
     packages=setuptools.find_packages(),
-    url='git@github.com:nhsconnect/integration-adaptor-common.git',
+    url='',
     license='',
     author='NIA Development Team',
     author_email='',
