@@ -1,6 +1,4 @@
-from distutils.core import setup
-
-import setuptools
+import setuptools import setup
 
 setup(
     name='integration-adaptors-common',
