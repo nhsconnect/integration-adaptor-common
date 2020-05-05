@@ -33,9 +33,11 @@ Ensure sonar-scanner is on your path, and configured for the sonarqube host with
  (See: [SonarQube](https://gpitbjss.atlassian.net/wiki/x/XQFfXQ))\
 NOTE: Coverage will not show in the analysis unless you have already generated the xml report (as per above.)
 
-## Intellij Version Control for external package
+## Working with both packages in Intellij
 
-IMPORTANT: Ensure ssh was used to install this repository as an external package in your current repository to be able to push changes. 
+It is possible to edit the external package when using it in another repository, like nhais or mhs, in the same IntelliJ window as the opened project. There is no need to keep two windows open.
+
+To do this you must ensure ssh was used to install this repository as an external package in your current repository to be able to push changes. 
 
 Edit files: Open IntelliJ → selected repo → Pipenv → external libraries → integration-adaptor-common → Select file you want to edit → pop-up window select (I want to edit all files in this directory)
 
