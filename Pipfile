@@ -17,6 +17,7 @@ isodate = "*"
 [requires]
 python_version = "3.7"
 
+
 [scripts]
 unittests = 'python -m xmlrunner -o test-reports -v'
 unittests-cov = 'coverage run -m xmlrunner -o test-reports -v'
