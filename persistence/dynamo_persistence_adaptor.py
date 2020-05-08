@@ -48,7 +48,9 @@ class DynamoPersistenceAdaptor(persistence_adaptor.PersistenceAdaptor):
         """
         logger.info('Adding data for {key}', fparams={'key': key})
         try:
-            async with self.__get_dynamo_table() as table:
+            async with aioboto3.resource('dynamodb', region_name='eu-west-2',
+                                         endpoint_url=config.get_config('DYNAMODB_ENDPOINT_URL', None)) as dynamo_resource:
+                table = await dynamo_resource.Table(self.table_name)
                 response = await table.put_item(
                     Item={'key': key, 'data': json.dumps(data)},
                     ReturnValues='ALL_OLD'
