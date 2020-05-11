@@ -51,6 +51,7 @@ class DynamoPersistenceAdaptor(persistence_adaptor.PersistenceAdaptor):
             async with aioboto3.resource('dynamodb', region_name='eu-west-2',
                                          endpoint_url=config.get_config('DYNAMODB_ENDPOINT_URL', None)) as dynamo_resource:
                 table = await dynamo_resource.Table(self.table_name)
+                logger.info('Establishing connection to {table_name}', fparams={'table_name': self.table_name})
                 response = await table.put_item(
                     Item={'key': key, 'data': json.dumps(data)},
                     ReturnValues='ALL_OLD'
@@ -70,14 +71,16 @@ class DynamoPersistenceAdaptor(persistence_adaptor.PersistenceAdaptor):
         """
         logger.info('Getting record for {key}', fparams={'key': key})
         try:
-            async with self.__get_dynamo_table() as table:
+            async with aioboto3.resource('dynamodb', region_name='eu-west-2',
+                                         endpoint_url=config.get_config('DYNAMODB_ENDPOINT_URL', None)) as dynamo_resource:
+                table = await dynamo_resource.Table(self.table_name)
+                logger.info('Establishing connection to {table_name}', fparams={'table_name': self.table_name})
                 response = await table.get_item(
                     Key={'key': key}
                 )
-
-            if 'Item' not in response:
-                logger.info('No item found for record: {key}', fparams={'key': key})
-                return None
+                if 'Item' not in response:
+                    logger.info('No item found for record: {key}', fparams={'key': key})
+                    return None
             return json.loads(response.get('Item', {}).get('data'))
         except Exception as e:
             raise RecordRetrievalError from e
@@ -90,25 +93,17 @@ class DynamoPersistenceAdaptor(persistence_adaptor.PersistenceAdaptor):
         """
         logger.info('Deleting record for {key}', fparams={'key': key})
         try:
-            async with self.__get_dynamo_table() as table:
+            async with aioboto3.resource('dynamodb', region_name='eu-west-2',
+                                         endpoint_url=config.get_config('DYNAMODB_ENDPOINT_URL', None)) as dynamo_resource:
+                table = await dynamo_resource.Table(self.table_name)
+                logger.info('Establishing connection to {table_name}', fparams={'table_name': self.table_name})
                 response = await table.delete_item(
                     Key={'key': key},
                     ReturnValues='ALL_OLD'
                 )
-            if 'Attributes' not in response:
-                logger.info('No values found for record: {key}', fparams={'key': key})
-                return None
+                if 'Attributes' not in response:
+                    logger.info('No values found for record: {key}', fparams={'key': key})
+                    return None
             return json.loads(response.get('Attributes', {}).get('data'))
         except Exception as e:
             raise RecordDeletionError from e
-
-    @contextlib.asynccontextmanager
-    async def __get_dynamo_table(self):
-        """
-        Creates a connection to the table referenced by this instance.
-        :return: The table to be used by this instance.
-        """
-        async with aioboto3.resource('dynamodb', region_name='eu-west-2',
-                                     endpoint_url=config.get_config('DYNAMODB_ENDPOINT_URL', None)) as dynamo_resource:
-            logger.info('Establishing connection to {table_name}', fparams={'table_name': self.table_name})
-            yield dynamo_resource.Table(self.table_name)
