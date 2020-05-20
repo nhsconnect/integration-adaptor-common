@@ -255,11 +255,10 @@ class ProtonMessageReceiver(proton.handlers.MessagingHandler):
     def on_start(self, event):
         event.container.listen(self.url)
 
-    def on_message(self, event) -> Message:
+    def on_message(self, event):
         message = event.message
-        self.callback(message)
         print(f'Received message is: {message.body}')
-        # event.receiver.accept()
+        event.receiver.accept()
         event.receiver.close()
         event.connection.close()
-        return message
+        self.callback(message)
