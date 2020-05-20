@@ -70,12 +70,11 @@ class ProtonQueueAdaptor(comms.queue_adaptor.QueueAdaptor):
             raise MessageSendingError() from e
 
     def wait_for_messages(self):
-        # or wait for messages, listen?
-        for url in self.urls:
-            if not self.get_message_callback:
-                raise EarlyDisconnectError('No callback specified for message retrieving')
-            messaging_handler = ProtonMessageReceiver(url, self.get_message_callback)
-            proton.reactor.Container(messaging_handler).run()
+        # for url in self.urls:
+        if not self.get_message_callback:
+            raise EarlyDisconnectError('No callback specified for message retrieving')
+        messaging_handler = ProtonMessageReceiver(self.urls[0], self.queue, self.get_message_callback)
+        proton.reactor.Container(messaging_handler).run()
 
     def __construct_message(self, message: dict, properties: Dict[str, Any] = None) -> proton.Message:
         """
@@ -247,18 +246,18 @@ class ProtonMessagingHandler(proton.handlers.MessagingHandler):
 
 class ProtonMessageReceiver(proton.handlers.MessagingHandler):
 
-    def __init__(self, url, callback):
+    def __init__(self, url, queue, callback):
         super(ProtonMessageReceiver, self).__init__()
         self.url = url
+        self.queue = queue
         self.callback = callback
 
     def on_start(self, event):
-        event.container.listen(self.url)
+        conn = event.container.connect(self.url)
+        # tested for queue with durability = transient
+        event.container.create_receiver(conn, self.queue)
 
     def on_message(self, event):
         message = event.message
         print(f'Received message is: {message.body}')
-        event.receiver.accept()
-        event.receiver.close()
-        event.connection.close()
         self.callback(message)
