@@ -16,5 +16,5 @@ class QueueAdaptor(abc.ABC):
         pass
 
     @abc.abstractmethod
-    async def wait_for_messages(self):
+    def wait_for_messages(self):
         pass
