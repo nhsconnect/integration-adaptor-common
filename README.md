@@ -1,3 +1,10 @@
+## ARCHIVED - 2020-06-02
+
+This repository is no longer maintained.
+The code has been merged into the [NHSDigital/integration-adaptor-mhs] repo in the /common folder.
+
+[NHSDigital/integration-adaptor-mhs]: https://github.com/NHSDigital/integration-adaptor-mhs
+
 # NHS Integration Adaptors Common Utilities
 
 This package contains common utilities used by the various projects that make up the NHS integration adaptors.
